@@ -8,9 +8,6 @@ class ClassificationMetrics:
         self.cm = None
         self.tn, self.fp, self.fn, self. tp = None
         self.confusion_matrix = None
-                                None
-                                None
-        
         self.accuracy_ = None
         self.misclassification_ = None
         self.sensitivity_ = None
@@ -21,22 +18,21 @@ class ClassificationMetrics:
         self.false_negative_rate_ = None
     
     def fit(self, y_true, y_pred):
-      '''
-      Takes an array of true y values and an array of predicted y values. Calculates a series of Classification Metrics and stores them as attributes. 
+        '''
+        Takes an array of true y values and an array of predicted y values. Calculates a series of Classification Metrics and stores them as attributes. 
 
-      Attributes:
-      cm : pure sklearn confusion_matrix
-      confusion_matrix: Labeled DataFrame containing the sklearn confusion_matrix
-      tn, fp, fn, tp: The True Negatives, False Positives, False Negatives, and True Positives
+        Attributes:
+        cm : pure sklearn confusion_matrix
+        confusion_matrix: Labeled DataFrame containing the sklearn confusion_matrix
+        tn, fp, fn, tp: The True Negatives, False Positives, False Negatives, and True Positives
 
-      Also includes accuracy_, misclassification_, sensitivity_, specificity_, precision_, negative_predictive_value_, false_positive_rate_, false_negative_rate_ 
-      '''
+        Also includes accuracy_, misclassification_, sensitivity_, specificity_, precision_, negative_predictive_value_, false_positive_rate_, false_negative_rate_ 
+        '''
         self.cm = confusion_matrix(y_true, y_pred)
         self.tn, self.fp, self.fn, self. tp = self.cm.ravel()
         self.confusion_matrix = pd.DataFrame(self.cm, 
                                              columns = ['predicted negative', 'predicted positive'], 
                                              index = ['actual negative', 'actual positive'])
-        
         self.accuracy_ = (self.tn + self.tp) / len(y_true)
         self.misclassification_ = 1 - self.accuracy_
         self.sensitivity_ = self.tp / (self.tp + self.fn)
@@ -48,12 +44,12 @@ class ClassificationMetrics:
         
         
     def describe(self):
-      '''
-      Returns a well-formated DataFrame of the fit metrics.
+        '''
+        Returns a well-formated DataFrame of the fit metrics.
 
-      .fit() must be called first. 
+        .fit() must be called first. 
 
-      '''
+        '''
         return pd.DataFrame({'Metric' : {'Accuracy' : self.accuracy_,
                            'Misclassification' : self.misclassification_,
                            'Sensitivity' : self.sensitivity_,
@@ -80,14 +76,14 @@ class RegressionMetrics:
         pass
         
     def fit(self, y_true, y_pred, k = None):
-      '''
-      Takes an array of true y values and an array of predicted y values. Calculates a series of Regression Metrics and stores them as attributes. 
+        '''
+        Takes an array of true y values and an array of predicted y values. Calculates a series of Regression Metrics and stores them as attributes. 
 
-      Optionally, k = number of features in model can be passed to access the r2_adj_ metric. 
+        Optionally, k = number of features in model can be passed to access the r2_adj_ metric. 
 
-      Attributes:
-      mse_, rmse_, r2_, msle_, mae_, base_mse_ (mse of the mean of the true values), base_rmse_ (rmse of the baseline)
-      '''
+        Attributes:
+        mse_, rmse_, r2_, msle_, mae_, base_mse_ (mse of the mean of the true values), base_rmse_ (rmse of the baseline)
+        '''
 
         self.mse_ = self.calculate_mse(y_true, y_pred)
         self.rmse_ = self.calculate_rmse(y_true, y_pred)
@@ -96,7 +92,7 @@ class RegressionMetrics:
         self.mae_ = self.calculate_mae(y_true, y_pred)
         self.base_mse_ = self.baseline_mse(y_true)
         self.base_rmse_ = self.baseline_rmse(y_true)
-        
+
         if k:
             self.r2_adj_ = self.calculate_r2_adj(y_true, y_pred, k)
         
@@ -128,9 +124,9 @@ class RegressionMetrics:
         return self.calculate_rmse(y_true, np.mean(y_true))
 
     def describe(self):
-      '''
-      Returns a well-formatted DataFrame of the fit Regression Metrics. .fit() must be called first. 
-      '''
+        '''
+        Returns a well-formatted DataFrame of the fit Regression Metrics. .fit() must be called first. 
+        '''
         output = {var : vars(self)[var] for var in vars(self)}
         description = {'Metrics' : {
                            'MSE' : self.mse_,
@@ -138,7 +134,7 @@ class RegressionMetrics:
                            'Baseline MSE' : self.base_mse_,
                            'Baseline RMSE' : self.base_rmse_,
                            'R2' : self.r2_,
-                       'R2 Adjusted' : self.r2_adj_,
+                           'R2 Adjusted' : self.r2_adj_,
                            'MAE' : self.mae_,
                            'MSLE' : self.msle_
                            }
