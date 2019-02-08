@@ -19,17 +19,19 @@ class ClassificationMetrics:
     
     def fit(self, y_true, y_pred):
         '''
-        Takes an array of true y values and an array of predicted y values. Calculates a series of Classification Metrics and stores them as attributes. 
+        Takes an array of true y values and an array of predicted y values. Calculates a series of 
+        Classification Metrics and stores them as attributes. 
 
         Attributes:
         cm : pure sklearn confusion_matrix
         confusion_matrix: Labeled DataFrame containing the sklearn confusion_matrix
         tn, fp, fn, tp: The True Negatives, False Positives, False Negatives, and True Positives
 
-        Also includes accuracy_, misclassification_, sensitivity_, specificity_, precision_, negative_predictive_value_, false_positive_rate_, false_negative_rate_ 
+        Also includes accuracy_, misclassification_, sensitivity_, specificity_, precision_, negative_predictive_value_,
+        false_positive_rate_, false_negative_rate_ 
         '''
         self.cm = confusion_matrix(y_true, y_pred)
-        self.tn, self.fp, self.fn, self. tp = self.cm.ravel()
+        self.tn, self.fp, self.fn, self.tp = self.cm.ravel()
         self.confusion_matrix = pd.DataFrame(self.cm, 
                                              columns = ['predicted negative', 'predicted positive'], 
                                              index = ['actual negative', 'actual positive'])
@@ -77,7 +79,8 @@ class RegressionMetrics:
         
     def fit(self, y_true, y_pred, k = None):
         '''
-        Takes an array of true y values and an array of predicted y values. Calculates a series of Regression Metrics and stores them as attributes. 
+        Takes an array of true y values and an array of predicted y values. Calculates a series of 
+        Regression Metrics and stores them as attributes. 
 
         Optionally, k = number of features in model can be passed to access the r2_adj_ metric. 
 
